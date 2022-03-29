@@ -29,8 +29,8 @@ con.connect(function(err) {
   console.log("Connected!");
 })
 
-//endpoint create user
-app.post('/user', (req,res)=> {
+//endpoint create product
+app.post('/product', (req,res)=> {
   let product_name  = req.body.product_name;
   let product_price = req.body.product_price;
   let sql           = `INSERT INTO product (product_name,product_price) VALUES ('${product_name}','${product_price}')`;
@@ -47,18 +47,18 @@ app.post('/user', (req,res)=> {
   });
 });
 
-//endpoint untuk get list all user
-app.get('/user', (req,res)=>{
+//endpoint untuk get list all product
+app.get('/product', (req,res)=>{
   res.send('GET USER LIST: GET /user');
 });
 
-//endpoint untuk get user by id
-app.get('/user/:id', (req,res)=>{
+//endpoint untuk get product by id
+app.get('/product/:id', (req,res)=>{
   res.send('GET USER: GET /user/' + req.params.id);
 });
 
 //endpoint untuk update
-app.patch('/user/:id', (req,res) => {
+app.patch('/product/:id', (req,res) => {
   const msg = {
     message: 'UPDATE USER: PATCH /user/' + req.params.id,
     body: req.body
@@ -67,7 +67,7 @@ app.patch('/user/:id', (req,res) => {
 });
 
 //endpoint untuk delete
-app.delete('/user/:id', (req,res)=>{
+app.delete('/product/:id', (req,res)=>{
   res.send('DELETE USER: DELETE /user/' + req.params.id);
 });
 
