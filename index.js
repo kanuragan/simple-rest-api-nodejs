@@ -49,7 +49,20 @@ app.post('/product', (req,res)=> {
 
 //endpoint untuk get list all product
 app.get('/product', (req,res)=>{
-  res.send('GET USER LIST: GET /user');
+  let sql  = "SELECT * FROM product";
+  con.query(sql,(err, result, field) => {
+    if(err) {
+      res.send({
+        message: "failed",
+        data: ""
+      });
+    } else {
+      res.send({
+        message: "Success",
+        data: result
+      });
+    }
+  });
 });
 
 //endpoint untuk get product by id
