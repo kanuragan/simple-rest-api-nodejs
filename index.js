@@ -1,15 +1,48 @@
 const express    = require('express');
 const bodyParser = require('body-parser');
+const mysql      = require('mysql');
 const app        = express();
+
+//cons environment
 const port       = 3000;
 const host       = 'localhost';
+const database   = 'learn';
+const user       = 'root';
+const password   = '';
 
+
+// init body parser
 app.use(bodyParser.json());
+
+
+//init connection mysql
+const con = mysql.createConnection({
+  host: host,
+  user: user,
+  password: password,
+  database: database,
+});
+
+//check connection
+con.connect(function(err) {
+  if(err) throw err;
+  console.log("Connected!");
+})
 
 //endpoint create user
 app.post('/user', (req,res)=> {
+  let product_name  = req.body.product_name;
+  let product_price = req.body.product_price;
+  let sql           = `INSERT INTO product (product_name,product_price) VALUES ('${product_name}','${product_price}')`;
+  let exec          = con.query(sql);
+  let message       =  "";
+  if(exec) {
+    message = "Success";
+  } else {
+    messafe = "Failed";
+  }
   res.send({
-    message: 'CREATE NEW USER: POST /user',
+    message: message,
     body: req.body
   });
 });
