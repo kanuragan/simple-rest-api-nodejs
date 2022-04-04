@@ -67,21 +67,62 @@ app.get('/product', (req,res)=>{
 
 //endpoint untuk get product by id
 app.get('/product/:id', (req,res)=>{
-  res.send('GET USER: GET /user/' + req.params.id);
+  let id  = req.params.id;
+  let sql = `SELECT * FROM product WHERE product_id=${id}`;
+  con.query(sql,(err,result,field) => {
+    if(err) {
+      res.send({
+        message: "Failed",
+        data: ""
+      });
+    } else {
+      let data = result;
+      if(result.length == 0 ) {
+        data = "data not found"
+      }
+      res.send({
+        message: "Success",
+        data: data
+      });
+    }
+  });
 });
 
 //endpoint untuk update
 app.patch('/product/:id', (req,res) => {
-  const msg = {
-    message: 'UPDATE USER: PATCH /user/' + req.params.id,
-    body: req.body
-  };
-  res.send(msg);
+  let product_id    = req.params.id;
+  let product_name  = req.body.product_name;
+  let product_price = req.body.product_price;
+  let sql = `UPDATE product set product_name='${product_name}',product_price=${product_price} WHERE product_id=${product_id}`;
+  con.query(sql,(err,result) => {
+    if(err) {
+      res.send({
+        message: "Failed",
+        data: ""
+      });
+    } else {
+      res.send({
+        message: "Success",
+        data: ""
+      });
+    }
+  });
 });
 
 //endpoint untuk delete
 app.delete('/product/:id', (req,res)=>{
-  res.send('DELETE USER: DELETE /user/' + req.params.id);
+  let sql = "DELETE FROM product WHERE product_id=" + req.params.id;
+  con.query(sql,(err,result)=>{
+    if(err) {
+      res.send({
+        message: "Failed"
+      });
+    } else {
+      res.send({
+        message: "Success"
+      });
+    }
+  })
 });
 
 //listen port
